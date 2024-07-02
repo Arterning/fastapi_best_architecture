@@ -106,7 +106,7 @@
 
   const userInfo = reactive({
     username: loginConfig.value.username,
-    password: loginConfig.value.password,
+    password: loginConfig.value.password || '123456',
     captcha: loginConfig.value.captcha,
   });
 
