@@ -61,7 +61,7 @@ class Settings(BaseSettings):
     }
 
     # Static Server
-    STATIC_FILES: bool = False
+    STATIC_FILES: bool = True
 
     # Location Parse
     LOCATION_PARSE: Literal['online', 'offline', 'false'] = 'offline'
@@ -83,7 +83,7 @@ class Settings(BaseSettings):
 
     # Token
     TOKEN_ALGORITHM: str = 'HS256'  # 算法
-    TOKEN_EXPIRE_SECONDS: int = 60 * 60 * 24 * 1  # 过期时间，单位：秒
+    TOKEN_EXPIRE_SECONDS: int = 60 * 60 * 24 * 7  # 过期时间，单位：秒
     TOKEN_REFRESH_EXPIRE_SECONDS: int = 60 * 60 * 24 * 7  # 刷新过期时间，单位：秒
     TOKEN_REDIS_PREFIX: str = 'fba_token'
     TOKEN_REFRESH_REDIS_PREFIX: str = 'fba_refresh_token'
@@ -97,6 +97,7 @@ class Settings(BaseSettings):
 
     # Middleware
     MIDDLEWARE_CORS: bool = True
+    MIDDLEWARE_GZIP: bool = True
     MIDDLEWARE_ACCESS: bool = False
 
     # RBAC Permission
@@ -135,6 +136,17 @@ class Settings(BaseSettings):
     # Ip location
     IP_LOCATION_REDIS_PREFIX: str = 'fba_ip_location'
     IP_LOCATION_EXPIRE_SECONDS: int = 60 * 60 * 24 * 1  # 过期时间，单位：秒
+
+
+    # Minio 
+    MINIO_URL: str = 'http://localhost:9000'
+    ACCESS_KEY: str = ''
+    SECRET_KEY: str = ''
+    BUCKET_NAME: str = ''
+
+
+    # Temp
+    TEMP_PATH: str = '/temp.zip'
 
 
 @lru_cache

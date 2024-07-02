@@ -41,6 +41,8 @@ dependencies = [
     "fastapi_oauth20>=0.0.1a1",
     "flower==2.0.1",
     "sqlalchemy-crud-plus==0.0.2",
+    "minio>=7.2.7",
+    "pymupdf>=1.24.7",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

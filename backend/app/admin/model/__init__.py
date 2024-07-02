@@ -12,3 +12,5 @@ from backend.app.admin.model.sys_opera_log import OperaLog
 from backend.app.admin.model.sys_role import Role
 from backend.app.admin.model.sys_user import User
 from backend.app.admin.model.sys_user_social import UserSocial
+from backend.app.admin.model.sys_doc import Document
+from backend.app.admin.model.sys_tag import Tag

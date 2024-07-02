@@ -7,6 +7,8 @@ from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from backend.app.admin.model.sys_user_role import sys_user_role
+from backend.app.admin.model.sys_user_doc import sys_user_doc
+
 from backend.common.model import Base, id_key
 from backend.database.db_mysql import uuid4_str
 from backend.utils.timezone import timezone
@@ -40,6 +42,12 @@ class User(Base):
     # 用户角色多对多
     roles: Mapped[list['Role']] = relationship(  # noqa: F821
         init=False, secondary=sys_user_role, back_populates='users'
+    )
+    # 用户标签一对多
+    tags: Mapped[list['Tag']] = relationship(init=False, back_populates='user')  # noqa: F821
+
+    follow_docs: Mapped[list['Document']] = relationship(  # noqa: F821
+        init=False, secondary=sys_user_doc, back_populates='followers'
     )
     # 用户 OAuth2 一对多
     socials: Mapped[list['UserSocial']] = relationship(init=False, back_populates='user')  # noqa: F821
