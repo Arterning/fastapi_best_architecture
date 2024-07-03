@@ -1,6 +1,6 @@
 <template>
-  <a-spin :spinning="state.loading" tip="加载中...">
-    <div class="pdf-preview">
+  <a-spin :spinning="state.loading" tip="加载中..." class="pdf-preview">
+    <div>
       <div class="pdf-wrap">
         <vue-pdf-embed
           :page="state.pageNum"
@@ -96,6 +96,7 @@
 <style lang="css" scoped>
   .pdf-preview {
     position: relative;
+    width: 100%;
     height: 100%;
     padding: 20px 0;
     box-sizing: border-box;
@@ -108,7 +109,7 @@
 
   .vue-pdf-embed {
     text-align: center;
-    width: 815px;
+    width: 100%;
     height: 815px;
     border: 1px solid #e5e5e5;
     margin: 0 auto;

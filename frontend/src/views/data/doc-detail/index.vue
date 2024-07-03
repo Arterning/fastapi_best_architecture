@@ -25,14 +25,18 @@
 
           <a-modal
             v-model:visible="visible"
-            width="auto"
+            :fullscreen="true"
+            :bodyStyle="{ height: '100%'}"
             @ok="handleOk"
             @cancel="handleCancel"
           >
-            <template #title> 预览文件 </template>
-            <Preview
+            <template #title> {{ detailInfo?.title }} </template>
+            <iframe
+              id="viewer"
+              width="100%"
+              height="100%"
               v-if="visible && detailInfo?.uuid"
-              :pdfUrl="getPreviewURL(detailInfo?.uuid)"
+              :src="getPreviewURL(detailInfo?.uuid)"
             />
           </a-modal>
 
@@ -65,7 +69,6 @@
   import useLoading from '@/hooks/loading';
   import { useRoute } from 'vue-router';
   import { queryDocDetail } from '@/api/doc';
-  import Preview from '@/components/preview/index.vue';
 
   const { t } = useI18n();
   const { loading, setLoading } = useLoading(true);
@@ -74,6 +77,11 @@
 
   const handleClick = () => {
     visible.value = true;
+    // let url = `/api/v1/data/docs/preview/${detailInfo.value.uuid}`;
+    // if (import.meta.env.VITE_API_BASE_URL) {
+    //     url = `${import.meta.env.VITE_API_BASE_URL}/api/v1/data/docs/preview/${detailInfo.value.uuid}`;
+    // }
+    // window.open(url);
   };
 
   const handleOk = () => {
