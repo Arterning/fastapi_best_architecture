@@ -262,28 +262,39 @@ def extract_date_from_text(text):
 @router.get("/preview/{uid}", summary = "预览文件")
 async def preview_pdf(uid: str):
     try:
-        # Get the file from Minio
-        file_data = minio_client.get_object(bucket_name, f"{uid}.pdf")
+        file_name = f"{uid}.pdf"
+        # 从 MinIO 获取对象
+        response = minio_client.get_object(bucket_name, file_name)
         
-        # Return the file content as response
-        return StreamingResponse(file_data, media_type='application/pdf')
+        async def file_generator(response):
+            while True:
+                chunk = response.read(9024)  # 逐块读取文件
+                if not chunk:
+                    break
+                yield chunk
+            response.close()
+            response.release_conn()
+        
+        return StreamingResponse(file_generator(response), media_type='application/pdf')
     except S3Error as e:
-        print(e)
         raise HTTPException(status_code=404, detail="File not found")
 
-# @router.get("/download/{uid}", summary = "下载文件")
+@router.get("/download/{uid}", summary = "下载文件")
 async def download_pdf(uid: str, response: Response):
     try:
         file_name = f"{uid}.pdf"
         # 从 MinIO 获取对象
         response = minio_client.get_object(bucket_name, file_name)
-        # 将对象内容读取到内存中
-        data = io.BytesIO(response.read())
-        response.close()
-        response.release_conn()
+        
+        async def file_generator(response):
+            while True:
+                chunk = response.read(9024)  # 逐块读取文件
+                if not chunk:
+                    break
+                yield chunk
+            response.close()
+            response.release_conn()
+        
+        return StreamingResponse(file_generator(response), media_type="application/octet-stream", headers={"Content-Disposition": f"attachment; filename={file_name}"})
     except S3Error as err:
         raise HTTPException(status_code=404, detail="File not found")
-
-    # 创建 StreamingResponse 响应
-    return StreamingResponse(data, media_type="application/octet-stream", headers={"Content-Disposition": f"attachment; filename={file_name}"})
-

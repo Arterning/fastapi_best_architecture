@@ -298,6 +298,7 @@
   import { Pagination } from '@/types/global';
   // 导入编辑器
   import MarkDown from '@/components/MarkDown/index.vue';
+import { getToken } from '@/utils/auth';
 
   const { t } = useI18n();
   const { loading, setLoading } = useLoading(true);
@@ -604,22 +605,43 @@
     });
   };
 
+  
   const customRequest = (option: RequestOption): UploadRequest => {
     const { onProgress, onError, onSuccess, fileItem } = option;
     const xhr = new XMLHttpRequest();
+    if (xhr.upload) {
+        xhr.upload.onprogress = function (event) {
+          let percent = 0;
+          if (event.total > 0) {
+            percent = event.loaded / event.total;
+          }
+          onProgress(percent, event);
+        };
+    }
+    xhr.onerror = function error(e) {
+        onError(e);
+    };
+    xhr.onload = function onload() {
+      if (xhr.status < 200 || xhr.status >= 300) {
+        Message.error(t('导入失败'));
+        return onError(xhr.responseText);
+      }
+      fetchApiList({
+          ...formModel.value, size: pagination.pageSize
+        }).then(() => {});
+      Message.success(t('导入成功'));
+      return onSuccess(xhr.response);
+    };
     const formData = new FormData();
     formData.append('file', fileItem.file as Blob);
-
-    uploadDocApi(formData)
-      .then((res) => {
-        onSuccess(res);
-        fetchApiList().then(() => {});
-        Message.success(t('导入成功'));
-      })
-      .catch((error) => {
-        onError(error);
-        Message.success(t('导入失败'));
-      });
+    const token = getToken();
+    let url = '/api/v1/data/docs/upload';
+    if (import.meta.env.VITE_API_BASE_URL) {
+        url = `${import.meta.env.VITE_API_BASE_URL}/api/v1/data/docs/upload`;
+    }
+    xhr.open('post', url, true);
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    xhr.send(formData);
 
     return {
       abort() {
