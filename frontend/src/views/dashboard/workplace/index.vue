@@ -4,6 +4,7 @@
       <div class="panel">
         <Banner />
         <DataPanel />
+        <OrgTree />
       </div>
     </div>
     <div class="footer">
@@ -14,6 +15,7 @@
 
 <script lang="ts" setup>
   import Footer from '@/components/footer/index.vue';
+  import OrgTree from '@/components/org-tree/index.vue';
   import Banner from './components/banner.vue';
   import DataPanel from './components/data-panel.vue';
 </script>
