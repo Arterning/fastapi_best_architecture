@@ -1,111 +1,180 @@
 <template>
-  <a-grid :cols="24" :row-gap="16" class="panel">
-    <a-grid-item
-      :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
-      class="panel-col"
-    >
-      <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
-        <a-statistic
-          :precision="1"
-          :title="$t('workplace.onlineContent')"
-          :value="373.5"
-          :value-from="0"
-          animation
-          show-group-separator
-        >
-          <template #suffix>
-            W+ <span class="unit">{{ $t('workplace.pecs') }}</span>
-          </template>
-        </a-statistic>
-      </a-space>
+  <a-grid :cols="12" class="panel">
+    <a-grid-item :span="{ xs: 12, sm: 12, md: 12, lg: 6, xl: 6, xxl: 6 }">
+      <div ref="chartRef" style="width: 600px; height: 400px"></div>
     </a-grid-item>
-    <a-grid-item
-      :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
-      class="panel-col"
-    >
-      <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
-        <a-statistic
-          :title="$t('workplace.putIn')"
-          :value="368"
-          :value-from="0"
-          animation
-          show-group-separator
+    <a-grid-item :span="{ xs: 12, sm: 12, md: 12, lg: 6, xl: 6, xxl: 6 }">
+      <a-grid :cols="12" :row-gap="50" class="panel">
+        <a-grid-item
+          :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
+          class="panel-col"
         >
-          <template #suffix>
-            <span class="unit">{{ $t('workplace.pecs') }}</span>
-          </template>
-        </a-statistic>
-      </a-space>
-    </a-grid-item>
-    <a-grid-item
-      :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
-      class="panel-col"
-    >
-      <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
-        <a-statistic
-          :title="$t('workplace.newDay')"
-          :value="8874"
-          :value-from="0"
-          animation
-          show-group-separator
+          <a-space>
+            <a-avatar :size="54" class="col-avatar">
+              <img
+                alt="avatar"
+                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
+              />
+            </a-avatar>
+            <a-statistic
+              :precision="1"
+              :title="$t('workplace.onlineContent')"
+              :value="373.5"
+              :value-from="0"
+              animation
+              show-group-separator
+            >
+              <template #suffix>
+                W+ <span class="unit">{{ $t('workplace.pecs') }}</span>
+              </template>
+            </a-statistic>
+          </a-space>
+        </a-grid-item>
+        <a-grid-item
+          :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
+          class="panel-col"
         >
-          <template #suffix>
-            <span class="unit">{{ $t('workplace.pecs') }}</span>
-          </template>
-        </a-statistic>
-      </a-space>
-    </a-grid-item>
-    <a-grid-item
-      :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
-      class="panel-col"
-      style="border-right: none"
-    >
-      <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
-        <a-statistic
-          :precision="1"
-          :title="$t('workplace.newFromYesterday')"
-          :value="2.8"
-          :value-from="0"
-          animation
+          <a-space>
+            <a-avatar :size="54" class="col-avatar">
+              <img
+                alt="avatar"
+                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
+              />
+            </a-avatar>
+            <a-statistic
+              :title="$t('workplace.putIn')"
+              :value="368"
+              :value-from="0"
+              animation
+              show-group-separator
+            >
+              <template #suffix>
+                <span class="unit">{{ $t('workplace.pecs') }}</span>
+              </template>
+            </a-statistic>
+          </a-space>
+        </a-grid-item>
+        <a-grid-item
+          :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
+          class="panel-col"
         >
-          <template #suffix>
-            %
-            <icon-caret-up class="up-icon" />
-          </template>
-        </a-statistic>
-      </a-space>
-    </a-grid-item>
-    <a-grid-item :span="24">
-      <a-divider class="panel-border" />
+          <a-space>
+            <a-avatar :size="54" class="col-avatar">
+              <img
+                alt="avatar"
+                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
+              />
+            </a-avatar>
+            <a-statistic
+              :title="$t('workplace.newDay')"
+              :value="8874"
+              :value-from="0"
+              animation
+              show-group-separator
+            >
+              <template #suffix>
+                <span class="unit">{{ $t('workplace.pecs') }}</span>
+              </template>
+            </a-statistic>
+          </a-space>
+        </a-grid-item>
+        <a-grid-item
+          :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }"
+          class="panel-col"
+          style="border-right: none"
+        >
+          <a-space>
+            <a-avatar :size="54" class="col-avatar">
+              <img
+                alt="avatar"
+                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image"
+              />
+            </a-avatar>
+            <a-statistic
+              :precision="1"
+              :title="$t('workplace.newFromYesterday')"
+              :value="2.8"
+              :value-from="0"
+              animation
+            >
+              <template #suffix>
+                %
+                <icon-caret-up class="up-icon" />
+              </template>
+            </a-statistic>
+          </a-space>
+        </a-grid-item>
+        <a-grid-item :span="24">
+          <a-divider class="panel-border" />
+        </a-grid-item>
+      </a-grid>
     </a-grid-item>
   </a-grid>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import * as echarts from 'echarts';
+  import { useAppStore } from '@/store';
+  import { ref, computed } from 'vue';
+
+  const chartRef = ref(null);
+
+  const appStore = useAppStore();
+  const isDark = computed(() => {
+    return appStore.theme === 'dark';
+  });
+
+  const initChart = async () => {
+    const option = {
+      tooltip: {
+        trigger: 'item',
+      },
+      legend: {
+        left: '5%',
+        textStyle: {
+          color: isDark.value ? 'rgba(255, 255, 255, 0.5)' : '#4E5969',
+        },
+      },
+      series: [
+        {
+          name: '数据类型',
+          type: 'pie',
+          radius: ['30%', '70%'],
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2,
+          },
+          data: [
+            { value: 1048, name: '搜索引擎' },
+            { value: 735, name: '直接访问' },
+            { value: 580, name: '邮件营销' },
+            { value: 484, name: '联盟广告' },
+            { value: 300, name: '视频广告' },
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+            label: {
+              show: true,
+              fontSize: 30,
+              fontWeight: 'bold',
+            },
+          },
+        },
+      ],
+    };
+    if (chartRef.value) {
+      const myChart = echarts.init(chartRef.value);
+      myChart.setOption(option);
+    }
+  };
+
+  initChart();
+</script>
 
 <style lang="less" scoped>
   .arco-grid.panel {

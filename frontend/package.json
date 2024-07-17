@@ -38,7 +38,7 @@
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^0.24.0",
     "dayjs": "^1.11.5",
-    "echarts": "^5.5.0",
+    "echarts": "^5.5.1",
     "echarts-gl": "^2.0.9",
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",
