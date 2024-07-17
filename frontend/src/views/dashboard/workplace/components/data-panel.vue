@@ -115,7 +115,7 @@
 <script lang="ts" setup>
   import * as echarts from 'echarts';
   import { useAppStore } from '@/store';
-  import { ref, computed } from 'vue';
+  import { ref, computed, onMounted  } from 'vue';
 
   const chartRef = ref(null);
 
@@ -167,13 +167,16 @@
         },
       ],
     };
+    console.log("chartRef", chartRef.value);
     if (chartRef.value) {
       const myChart = echarts.init(chartRef.value);
       myChart.setOption(option);
     }
   };
 
-  initChart();
+  onMounted(() => {
+    initChart();
+  })
 </script>
 
 <style lang="less" scoped>
