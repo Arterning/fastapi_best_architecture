@@ -27,7 +27,7 @@
       });
 
       const topMenu = computed(() => appStore.topMenu);
-      const openKeys = ref<string[]>(["dashboard", "data", "admin", "log", "monitor"]);
+      const openKeys = ref<string[]>(["dashboard", "data", "personal"]);
       const selectedKey = ref<string[]>([]);
 
       const goto = (item: RouteRecordRaw) => {

@@ -1,6 +1,10 @@
 <template>
   <a-config-provider :locale="locale">
-    <router-view :key="$route.fullPath" />
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" :key="$route.fullPath" />
+      </keep-alive>
+    </router-view>
     <global-setting />
   </a-config-provider>
 </template>

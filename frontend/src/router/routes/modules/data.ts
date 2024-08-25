@@ -26,18 +26,6 @@ const DATA: AppRouteRecordRaw = {
       },
     },
     {
-      path: 'star-doc',
-      name: 'StarDoc',
-      component: () => import('@/views/data/doc-star/index.vue'),
-      meta: {
-        locale: 'menu.star',
-        requiresAuth: true,
-        roles: ['*'],
-        hideInMenu: false,
-        icon: 'icon-star',
-      },
-    },
-    {
       path: 'doc-detail',
       name: 'DataDocDetail',
       component: () => import('@/views/data/doc-detail/index.vue'),
@@ -137,18 +125,6 @@ const DATA: AppRouteRecordRaw = {
         requiresAuth: true,
         roles: ['*'],
         hideInMenu: true,
-      },
-    },
-    {
-      path: 'tag',
-      name: 'DataTag',
-      component: () => import('@/views/data/tag/index.vue'),
-      meta: {
-        locale: 'menu.tag',
-        requiresAuth: true,
-        roles: ['*'],
-        hideInMenu: false,
-        icon: 'icon-tag',
       },
     },
   ],

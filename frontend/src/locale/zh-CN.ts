@@ -52,6 +52,7 @@ export default {
   'menu.org-detail': '机构详情',
   'menu.upload': '文件上传',
   'menu.work': '工作台',
+  'menu.personal': '我的数据',
   'menu.doc-edit': '编辑文件',
   'menu.person-edit': '编辑人物',
   'menu.subject-detail': '议题详情',
