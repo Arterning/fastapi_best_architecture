@@ -14,3 +14,10 @@ from backend.app.admin.model.sys_user import User
 from backend.app.admin.model.sys_user_social import UserSocial
 from backend.app.admin.model.sys_doc import Document
 from backend.app.admin.model.sys_tag import Tag
+
+from backend.app.admin.model.sys_org import Organization
+from backend.app.admin.model.sys_person import Person
+from backend.app.admin.model.sys_tag import Tag
+from backend.app.admin.model.sys_subject import Subject
+from backend.app.admin.model.sys_person_relation import PersonRelation
+from backend.app.admin.model.sys_attachment import Attachment

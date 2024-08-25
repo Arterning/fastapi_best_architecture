@@ -27,15 +27,6 @@
               </a-form-item>
             </a-form>
           </a-col>
-          <a-col :span="8">
-            <a-space :size="'large'">
-              <a-upload
-                :custom-request="customRequest"
-                accept="application/pdf,application/zip"
-                @before-upload="beforeUpload"
-              />
-            </a-space>
-          </a-col>
         </a-row>
         <a-modal
           v-model:visible="visible"
@@ -155,91 +146,7 @@
           </a-table>
         </div>
         <div class="content-modal">
-          <a-modal
-            :visible="openAnalysis"
-            :width="550"
-            @ok="handleOk"
-            @cancel="handleCancel"
-          >
-            <p>开始分析</p>
-            <span v-for="text in analysisContent" :key="text">{{ text }}</span>
-          </a-modal>
-        </div>
-        <div class="content-modal">
-          <a-modal
-            :closable="false"
-            :on-before-ok="beforeSubmit"
-            :title="drawerTitle"
-            :visible="openNewOrEdit"
-            :width="550"
-            fullscreen
-            @cancel="cancelReq"
-            @ok="submitNewOrEdit"
-          >
-            <a-form ref="formRef" :model="form">
-              <a-form-item
-                :feedback="true"
-                :label="$t('标题')"
-                :rules="[{ required: true, message: $t('title') }]"
-                field="title"
-              >
-                <a-input
-                  v-model="form.title"
-                  :placeholder="$t('标题')"
-                ></a-input>
-              </a-form-item>
-              <a-form-item :label="$t('主题')" field="subject">
-                <a-input v-model="form.subject"></a-input>
-              </a-form-item>
-              <a-form-item :label="$t('标签')" field="tags">
-                <a-space wrap>
-                  <a-tag
-                    v-for="(tag, index) of tags"
-                    :key="index"
-                    :closable="index >= 0"
-                    @close="handleRemove(tag)"
-                  >
-                    {{ tag }}
-                  </a-tag>
-
-                  <a-input
-                    v-if="showInput"
-                    ref="inputRef"
-                    v-model.trim="inputVal"
-                    :style="{ width: '90px' }"
-                    size="mini"
-                    @keyup.enter="handleAdd"
-                    @blur="handleAdd"
-                  />
-                  <a-tag
-                    v-else
-                    :style="{
-                      width: '90px',
-                      backgroundColor: 'var(--color-fill-2)',
-                      border: '1px dashed var(--color-fill-3)',
-                      cursor: 'pointer',
-                    }"
-                    @click="handleEdit"
-                  >
-                    <template #icon>
-                      <icon-plus />
-                    </template>
-                    Add Tag
-                  </a-tag>
-                </a-space>
-              </a-form-item>
-              <a-form-item :label="$t('内容')" field="content">
-                <!-- <a-textarea
-                  v-model="form.content"
-                  :placeholder="$t('content')"
-                  auto-size```````````````                                                                                              `
-                ></a-textarea> -->
-                <div class="markdown">
-                  <MarkDown v-model="form.content"> </MarkDown>
-                </div>
-              </a-form-item>
-            </a-form>
-          </a-modal>
+          
           <a-modal
             :closable="false"
             :title="`${$t('modal.title.tips')}`"
@@ -420,16 +327,6 @@ import { getToken } from '@/utils/auth';
     }
   });
 
-  // 弹出分析窗口
-  const openAnalysis = ref<boolean>(false);
-  const analysisContent = ref<string[]>([]);
-
-  const handleOk = () => {
-    openAnalysis.value = false;
-  };
-  const handleCancel = () => {
-    openAnalysis.value = false;
-  };
 
   // 对话框
   const openNewOrEdit = ref<boolean>(false);
@@ -464,27 +361,6 @@ import { getToken } from '@/utils/auth';
     done(false);
   };
 
-  // 提交按钮
-  const submitNewOrEdit = async () => {
-    setLoading(true);
-    try {
-      if (buttonStatus.value === 'new') {
-        await createDocApi(form);
-        cancelReq();
-        Message.success(t('submit.create.success'));
-        await fetchApiList();
-      } else {
-        await updateDocApi(operateRow.value, form);
-        cancelReq();
-        Message.success(t('submit.update.success'));
-        await fetchApiList();
-      }
-    } catch (error) {
-      // console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // 删除按钮状态
   const deleteButtonStatus = () => {
@@ -588,109 +464,11 @@ import { getToken } from '@/utils/auth';
 
       form.tags = data.tags.map((item: Record<any, any>) => item.name);
 
-      if (form.tags) {
-        tags.value = [...form.tags];
-      }
     });
   };
 
-  const beforeUpload = (file: File): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-      Modal.confirm({
-        title: '确认上传',
-        content: `确认上传 ${file.name}`,
-        onOk: () => resolve(true),
-        onCancel: () => reject(new Error('取消上传')),
-      });
-    });
-  };
 
   
-  const customRequest = (option: RequestOption): UploadRequest => {
-    const { onProgress, onError, onSuccess, fileItem } = option;
-    const xhr = new XMLHttpRequest();
-    if (xhr.upload) {
-        xhr.upload.onprogress = function (event) {
-          let percent = 0;
-          if (event.total > 0) {
-            percent = event.loaded / event.total;
-          }
-          onProgress(percent, event);
-        };
-    }
-    xhr.onerror = function error(e) {
-        onError(e);
-    };
-    xhr.onload = function onload() {
-      if (xhr.status < 200 || xhr.status >= 300) {
-        Message.error(t('导入失败'));
-        return onError(xhr.responseText);
-      }
-      fetchApiList({
-          ...formModel.value, size: pagination.pageSize
-        }).then(() => {});
-      Message.success(t('导入成功'));
-      return onSuccess(xhr.response);
-    };
-    const formData = new FormData();
-    formData.append('file', fileItem.file as Blob);
-    const token = getToken();
-    let url = '/api/v1/data/docs/upload';
-    if (import.meta.env.VITE_API_BASE_URL) {
-        url = `${import.meta.env.VITE_API_BASE_URL}/api/v1/data/docs/upload`;
-    }
-    xhr.open('post', url, true);
-    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-    xhr.send(formData);
-
-    return {
-      abort() {
-        xhr.abort();
-      },
-    };
-  };
-
-  interface HasName {
-    name: string;
-  }
-
-  const nameList = (objList: HasName[]) => {
-    const nameList: string[] = [];
-    objList.forEach((item) => {
-      nameList.push(item.name);
-    });
-    return nameList;
-  };
-
-
-  const tags = ref<string[]>([]);
-  const inputRef = ref<HTMLInputElement>();
-  const showInput = ref(false);
-  const inputVal = ref('');
-
-  const handleEdit = () => {
-    showInput.value = true;
-
-    nextTick(() => {
-      if (inputRef.value) {
-        inputRef.value.focus();
-      }
-    });
-  };
-
-  const handleAdd = () => {
-    if (inputVal.value) {
-      tags.value.push(inputVal.value);
-      form.tags?.push(inputVal.value);
-      inputVal.value = '';
-    }
-    showInput.value = false;
-  };
-
-  const handleRemove = (key: string) => {
-    tags.value = tags.value.filter((tag) => tag !== key);
-    form.tags = form.tags?.filter((tag) => tag !== key);
-  };
 </script>
 
 <script lang="ts">

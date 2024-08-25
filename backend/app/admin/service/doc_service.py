@@ -85,6 +85,13 @@ class DocService:
             return count
 
     @staticmethod
+    async def base_update(pk: int, obj: dict) -> int:
+        async with async_db_session.begin() as db:
+            count = await doc_dao.base_update(db, pk, obj)
+            return count
+
+        
+    @staticmethod
     async def delete(*, pk: list[int]) -> int:
         async with async_db_session.begin() as db:
             count = await doc_dao.delete(db, pk)

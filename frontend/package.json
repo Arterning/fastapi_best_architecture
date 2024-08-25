@@ -46,6 +46,7 @@
     "pinia": "^2.0.23",
     "qs": "^6.12.1",
     "query-string": "^8.2.0",
+    "relation-graph-vue3": "^2.2.3",
     "sortablejs": "^1.15.0",
     "swiper": "^11.1.4",
     "vue": "^3.2.40",

@@ -120,99 +120,11 @@
                 <a-link @click="UnFollowFile(record.id)">
                   {{ $t(`取消收藏`) }}
                 </a-link>
-                <a-link @click="EditApi(record.id)">
-                  {{ $t(`admin.api.columns.edit`) }}
-                </a-link>
               </a-space>
             </template>
           </a-table>
         </div>
         <div class="content-modal">
-          <a-modal
-            :visible="openAnalysis"
-            :width="550"
-            @ok="handleOk"
-            @cancel="handleCancel"
-          >
-            <p>开始分析</p>
-            <span v-for="text in analysisContent" :key="text">{{ text }}</span>
-          </a-modal>
-        </div>
-        <div class="content-modal">
-          <a-modal
-            :closable="false"
-            :on-before-ok="beforeSubmit"
-            :title="drawerTitle"
-            :visible="openNewOrEdit"
-            :width="550"
-            fullscreen
-            @cancel="cancelReq"
-            @ok="submitNewOrEdit"
-          >
-            <a-form ref="formRef" :model="form">
-              <a-form-item
-                :feedback="true"
-                :label="$t('标题')"
-                :rules="[{ required: true, message: $t('title') }]"
-                field="title"
-              >
-                <a-input
-                  v-model="form.title"
-                  :placeholder="$t('title')"
-                ></a-input>
-              </a-form-item>
-              <a-form-item :label="$t('主题')" field="subject">
-                <a-input v-model="form.subject"></a-input>
-              </a-form-item>
-              <a-form-item :label="$t('标签')" field="tags">
-                <a-space wrap>
-                  <a-tag
-                    v-for="(tag, index) of tags"
-                    :key="index"
-                    :closable="index >= 0"
-                    @close="handleRemove(tag)"
-                  >
-                    {{ tag }}
-                  </a-tag>
-
-                  <a-input
-                    v-if="showInput"
-                    ref="inputRef"
-                    v-model.trim="inputVal"
-                    :style="{ width: '90px' }"
-                    size="mini"
-                    @keyup.enter="handleAdd"
-                    @blur="handleAdd"
-                  />
-                  <a-tag
-                    v-else
-                    :style="{
-                      width: '90px',
-                      backgroundColor: 'var(--color-fill-2)',
-                      border: '1px dashed var(--color-fill-3)',
-                      cursor: 'pointer',
-                    }"
-                    @click="handleEdit"
-                  >
-                    <template #icon>
-                      <icon-plus />
-                    </template>
-                    Add Tag
-                  </a-tag>
-                </a-space>
-              </a-form-item>
-              <a-form-item :label="$t('内容')" field="content">
-                <!-- <a-textarea
-                  v-model="form.content"
-                  :placeholder="$t('content')"
-                  auto-size```````````````                                                                                              `
-                ></a-textarea> -->
-                <div class="markdown">
-                  <MarkDown v-model="form.content"> </MarkDown>
-                </div>
-              </a-form-item>
-            </a-form>
-          </a-modal>
           <a-modal
             :closable="false"
             :title="`${$t('modal.title.tips')}`"
